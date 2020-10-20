@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+         version="4.0">
+
+    <display-name>Conferences web application</display-name>
+
+    <welcome-file-list>
+        <welcome-file>main.jsp</welcome-file>
+    </welcome-file-list>
+
+
+    <!--Servlets-->
+    <servlet>
+        <servlet-name>Dispatcher</servlet-name>
+        <servlet-class>chornyi.conferences.web.Dispatcher</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Dispatcher</servlet-name>
+        <url-pattern></url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>FrontController</servlet-name>
+        <servlet-class>chornyi.conferences.web.FrontController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FrontController</servlet-name>
+        <url-pattern>/visitor/*</url-pattern>
+        <url-pattern>/user/*</url-pattern>
+        <url-pattern>/speaker/*</url-pattern>
+        <url-pattern>/moderator/*</url-pattern>
+    </servlet-mapping>
+
+    <!--Listeners-->
+    <listener>
+        <listener-class>chornyi.conferences.web.listener.LocaleListener</listener-class>
+    </listener>
+    <listener>
+        <listener-class>chornyi.conferences.web.listener.SessionListener</listener-class>
+    </listener>
+
+    <!--Filters-->
+    <filter>
+        <filter-name>EncodingFilter</filter-name>
+        <filter-class>chornyi.conferences.web.filters.EncodingFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>EncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>AccessFilter</filter-name>
+        <filter-class>chornyi.conferences.web.filters.AccessFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AccessFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>AuthorizationFilter</filter-name>
+        <filter-class>chornyi.conferences.web.filters.AuthorizationFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AuthorizationFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!--Error pages-->
+    <error-page>
+        <exception-type>chornyi.conferences.exception.NotFoundException</exception-type>
+        <location>/WEB-INF/errors/notFoundError.jsp</location>
+    </error-page>
+    <error-page>
+        <exception-type>chornyi.conferences.exception.NoAuthorityException</exception-type>
+        <location>/WEB-INF/errors/noAuthorityError.jsp</location>
+    </error-page>
+    <error-page>
+        <exception-type>java.lang.Throwable</exception-type>
+        <location>/WEB-INF/errors/internalServerError.jsp</location>
+    </error-page>
+
+
+</web-app>
